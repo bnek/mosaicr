@@ -51,3 +51,12 @@ Implement the command-line interface entry point that accepts arguments, loads c
 
 - **004-configuration-system** — config parsing
 - **009-mosaic-engine** — engine to invoke
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-12
+
+## Completion Notes
+- Completed: 2026-04-12
+- Summary: Implemented full CLI entry point in Program.cs with positional args (sourceDir, outputFile), optional flags (--config, --tile-width, --tile-height, --columns, --rows, --shuffle, --fill-with-images, --strategy, --blur), three-layer config merging (defaults → config file → CLI overrides), input validation (directory existence, .jpg presence, output path, positive integers), usage help, summary output on success, and non-zero exit codes on error. Build succeeds, all error paths tested.

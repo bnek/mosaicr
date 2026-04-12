@@ -70,3 +70,8 @@ Add unit tests for core algorithms and an integration test that creates a mosaic
 
 - **003-project-setup** — test project must exist
 - **All implementation tasks (004–010)** — code must exist to test
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-13

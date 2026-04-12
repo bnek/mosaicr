@@ -45,3 +45,12 @@ Implement the Mosaic Engine — the central orchestrator that coordinates the en
 - **006-image-processing** — image preparation, cropping, resizing, writing
 - **007-grid-calculation** — grid dimensions and image list preparation
 - **008-filling-strategies** — tile placement strategy
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-12
+
+## Completion Notes
+- Completed: 2026-04-12
+- Summary: Created `src/Mosaicr/Engine/MosaicEngine.cs` with a static `CreateMosaic` method that orchestrates the full pipeline: image preparation, grid calculation, canvas creation with background color fill, image list preparation, strategy-based tile placement, color fill for empty cells, grayscale conversion support, JPEG output, and temporary file cleanup. Uses `ProcessPixelRows` for efficient pixel-level operations. Build succeeds. Committed as `5645792`.

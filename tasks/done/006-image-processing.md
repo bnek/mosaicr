@@ -49,3 +49,12 @@ Implement the image processing pipeline: scanning a directory for JPEG files, ce
 ## Dependencies
 
 - **003-project-setup** — project and ImageSharp package must exist
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-12
+
+## Completion Notes
+- Completed: 2026-04-12
+- Summary: Created 4 files in `src/Mosaicr/ImageProcessing/`: `ImageCropper.cs` (center-crop with 3 cases), `ImageResizer.cs` (bicubic resize), `ImageWriter.cs` (JPEG output), `ImagePreparator.cs` (directory scan, crop/resize pipeline, temp file tracking, CMYK→RGB via `Image.Load<Rgb24>`). All build successfully. Committed as `fcd866f`.

@@ -39,3 +39,12 @@ Implement the grid dimension calculation algorithm and the image list preparatio
 ## Dependencies
 
 - **003-project-setup** — project must exist before adding code
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-12
+
+## Completion Notes
+- Completed: 2026-04-12
+- Summary: Implemented `GridCalculator` and `ImageListPreparator` in `Mosaicr.Engine` namespace. GridCalculator scales base dimensions by their base values until cells >= tiles. ImageListPreparator handles shuffle, fill-with-images (cycling), and fill-with-nulls (placeholders), plus re-shuffle. Added 12 unit tests (5 for grid, 7 for image list) — all passing with zero warnings.

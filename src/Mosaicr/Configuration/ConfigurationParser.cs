@@ -1,3 +1,4 @@
+using Mosaicr.Colors;
 using SixLabors.ImageSharp;
 
 namespace Mosaicr.Configuration;
@@ -71,7 +72,7 @@ public static class ConfigurationParser
                 settings.BackgroundColor = Color.ParseHex(value);
                 break;
             case "tilesColorRange":
-                settings.TilesColorRanges = MosaicSettings.ParseColorRanges(value);
+                settings.TilesColorRanges = ColorRangeContainer.Parse(value);
                 break;
             case "targetImageType":
                 settings.TargetImageType = Enum.Parse<ImageType>(value, ignoreCase: true);

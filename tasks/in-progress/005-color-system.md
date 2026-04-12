@@ -34,3 +34,8 @@ Implement the color generation system used to fill empty tile slots with randomi
 ## Dependencies
 
 - **003-project-setup** — project must exist before adding code
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-12

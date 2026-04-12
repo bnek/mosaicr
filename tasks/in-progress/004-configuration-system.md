@@ -42,3 +42,8 @@ Implement the configuration loading system. Parse a Java-style properties file (
 ## Dependencies
 
 - **003-project-setup** — project must exist before adding code
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-12

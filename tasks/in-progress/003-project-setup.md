@@ -34,3 +34,8 @@ Create a C# console application project for the Mosaicr photo mosaic generator. 
 ## Dependencies
 
 - None (this is the first implementation task)
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-12

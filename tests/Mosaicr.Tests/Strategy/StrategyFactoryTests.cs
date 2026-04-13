@@ -38,4 +38,17 @@ public class StrategyFactoryTests
         var ex = Assert.Throws<ArgumentException>(() => StrategyFactory.Create("FANCY", mappings));
         Assert.Contains("NonExistentStrategy", ex.Message);
     }
+
+    [Fact]
+    public void Create_CircleStrategy_ReturnsCircleFillingStrategy()
+    {
+        var mappings = new Dictionary<string, string>
+        {
+            ["CIRCLE_CLASS"] = "CircleImageFillingStrategy"
+        };
+
+        var strategy = StrategyFactory.Create("CIRCLE", mappings);
+
+        Assert.IsType<CircleFillingStrategy>(strategy);
+    }
 }

@@ -4,7 +4,8 @@ public static class StrategyFactory
 {
     private static readonly Dictionary<string, Type> KnownStrategies = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["SimpleImageFillingStrategy"] = typeof(SimpleGridStrategy)
+        ["SimpleImageFillingStrategy"] = typeof(SimpleGridStrategy),
+        ["CircleImageFillingStrategy"] = typeof(CircleFillingStrategy)
     };
 
     public static IImageFillingStrategy Create(string strategyName, Dictionary<string, string> strategyMappings)

@@ -50,3 +50,8 @@ See `tasks/done/013-circle-image-filling strategy.md` for the full concept desig
 - [ ] All new and existing tests pass (`dotnet test`)
 - [ ] The strategy handles edge cases (single tile, canvas smaller than one ring, index overflow)
 - [ ] No changes to `IImageFillingStrategy` interface are required
+
+---
+## Status
+- **Attempt:** 1
+- **Moved to in-progress:** 2026-04-13

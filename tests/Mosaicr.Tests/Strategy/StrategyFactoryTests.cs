@@ -9,7 +9,7 @@ public class StrategyFactoryTests
     {
         var mappings = new Dictionary<string, string>
         {
-            ["NORMAL_CLASS"] = "SimpleImageFillingStrategy"
+            ["NORMAL_CLASS"] = "SimpleGridStrategy"
         };
 
         var strategy = StrategyFactory.Create("NORMAL", mappings);
@@ -44,7 +44,7 @@ public class StrategyFactoryTests
     {
         var mappings = new Dictionary<string, string>
         {
-            ["CIRCLE_CLASS"] = "CircleImageFillingStrategy"
+            ["CIRCLE_CLASS"] = "CircleFillingStrategy"
         };
 
         var strategy = StrategyFactory.Create("CIRCLE", mappings);

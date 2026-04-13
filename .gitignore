@@ -58,3 +58,5 @@ bld/
 *.pidb
 *.svclog
 *.scc
+examples/my-photos
+examples/output

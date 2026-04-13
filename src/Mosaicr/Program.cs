@@ -69,10 +69,12 @@ static int Run(string[] args)
             return 1;
         }
 
-        var jpgFiles = Directory.GetFiles(sourceDirectory, "*.jpg");
-        if (jpgFiles.Length == 0)
+        var imageFiles = Directory.EnumerateFiles(sourceDirectory)
+            .Where(f => new[] { ".jpg", ".jpeg", ".png" }.Contains(Path.GetExtension(f).ToLowerInvariant()))
+            .ToArray();
+        if (imageFiles.Length == 0)
         {
-            Console.Error.WriteLine($"Error: Source directory contains no .jpg files: {sourceDirectory}");
+            Console.Error.WriteLine($"Error: Source directory contains no image files (.jpg, .png): {sourceDirectory}");
             return 1;
         }
 
@@ -139,7 +141,7 @@ static int Run(string[] args)
         Console.WriteLine("Mosaicr - Photo Mosaic Generator");
         Console.WriteLine($"Source: {Path.GetFullPath(sourceDirectory)}");
         Console.WriteLine($"Output: {Path.GetFullPath(outputFile)}");
-        Console.WriteLine($"Tiles:  {jpgFiles.Length} images found");
+        Console.WriteLine($"Tiles:  {imageFiles.Length} images found");
         Console.WriteLine();
 
         MosaicEngine.CreateMosaic(sourceDirectory, outputFile, settings);
@@ -153,7 +155,7 @@ static int Run(string[] args)
         Console.WriteLine($"  Output:     {Path.GetFullPath(outputFile)} ({outputInfo.Length / 1024} KB)");
         Console.WriteLine($"  Tile size:  {settings.TileWidth} x {settings.TileHeight}");
         Console.WriteLine($"  Grid:       {settings.HorizontalTileCount} columns x {settings.VerticalTileCount} rows");
-        Console.WriteLine($"  Tiles used: {jpgFiles.Length}");
+        Console.WriteLine($"  Tiles used: {imageFiles.Length}");
 
         return 0;
     }
@@ -184,8 +186,8 @@ static void PrintUsage()
     Console.WriteLine("Usage: mosaicr <sourceDir> <outputFile> [options]");
     Console.WriteLine();
     Console.WriteLine("Arguments:");
-    Console.WriteLine("  sourceDir              Path to directory containing tile images (.jpg)");
-    Console.WriteLine("  outputFile             Path for the output mosaic JPEG");
+    Console.WriteLine("  sourceDir              Path to directory containing tile images (.jpg, .png)");
+    Console.WriteLine("  outputFile             Path for the output mosaic image (.jpg or .png)");
     Console.WriteLine();
     Console.WriteLine("Options:");
     Console.WriteLine("  --config <path>        Path to properties configuration file");

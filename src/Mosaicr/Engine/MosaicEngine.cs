@@ -82,11 +82,11 @@ public static class MosaicEngine
                 });
                 gsCanvas.DrawBitmap(canvas, 0, 0, paint);
                 gsCanvas.Flush();
-                ImageWriter.WriteJpeg(grayscale, outputFile);
+                ImageWriter.Write(grayscale, outputFile);
             }
             else
             {
-                ImageWriter.WriteJpeg(canvas, outputFile);
+                ImageWriter.Write(canvas, outputFile);
             }
         }
         finally

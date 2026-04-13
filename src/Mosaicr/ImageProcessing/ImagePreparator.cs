@@ -4,7 +4,7 @@ namespace Mosaicr.ImageProcessing;
 
 public static class ImagePreparator
 {
-    private static readonly string[] JpegExtensions = [".jpg", ".jpeg"];
+    private static readonly string[] SupportedExtensions = [".jpg", ".jpeg", ".png"];
 
     public static (List<string> TilePaths, List<string> TempFiles) PrepareImages(
         string sourceDirectory, int tileWidth, int tileHeight)
@@ -13,7 +13,7 @@ public static class ImagePreparator
         var tempFiles = new List<string>();
 
         var imageFiles = Directory.EnumerateFiles(sourceDirectory)
-            .Where(f => JpegExtensions.Contains(Path.GetExtension(f).ToLowerInvariant()))
+            .Where(f => SupportedExtensions.Contains(Path.GetExtension(f).ToLowerInvariant()))
             .OrderBy(f => f)
             .ToList();
 
@@ -35,7 +35,7 @@ public static class ImagePreparator
                 Path.GetDirectoryName(filePath)!,
                 Path.GetFileNameWithoutExtension(filePath) + ".rescaled.jpg");
 
-            ImageWriter.WriteJpeg(image, tempPath);
+            ImageWriter.Write(image, tempPath);
             image.Dispose();
             tempFiles.Add(tempPath);
             tilePaths.Add(tempPath);

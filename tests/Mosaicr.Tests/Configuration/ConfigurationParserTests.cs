@@ -83,9 +83,9 @@ public class ConfigurationParserTests
         // Default color ranges should be present
         Assert.Equal(2, settings.TilesColorRanges.Count);
 
-        // Default background color is red
+        // Default background color is black
         var bg = settings.BackgroundColor;
-        Assert.Equal(255, bg.Red);
+        Assert.Equal(0, bg.Red);
         Assert.Equal(0, bg.Green);
         Assert.Equal(0, bg.Blue);
     }

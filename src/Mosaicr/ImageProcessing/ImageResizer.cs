@@ -1,17 +1,13 @@
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 
 namespace Mosaicr.ImageProcessing;
 
 public static class ImageResizer
 {
-    public static void Resize(Image image, int tileWidth, int tileHeight)
+    public static SKBitmap Resize(SKBitmap image, int tileWidth, int tileHeight)
     {
-        image.Mutate(ctx => ctx.Resize(new ResizeOptions
-        {
-            Size = new Size(tileWidth, tileHeight),
-            Mode = ResizeMode.Stretch,
-            Sampler = KnownResamplers.Bicubic
-        }));
+        var resized = image.Resize(new SKImageInfo(tileWidth, tileHeight), SKSamplingOptions.Default);
+        image.Dispose();
+        return resized;
     }
 }

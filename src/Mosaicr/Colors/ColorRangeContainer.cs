@@ -1,4 +1,4 @@
-using SixLabors.ImageSharp;
+using SkiaSharp;
 
 namespace Mosaicr.Colors;
 
@@ -15,7 +15,7 @@ public class ColorRangeContainer
         _ranges.Add(range);
     }
 
-    public Color GetNextColor()
+    public SKColor GetNextColor()
     {
         if (_ranges.Count == 0)
             throw new InvalidOperationException("No color ranges available.");
@@ -41,7 +41,7 @@ public class ColorRangeContainer
                 var upper = parts[1].Trim();
                 if (lower.StartsWith('#') && upper.StartsWith('#'))
                 {
-                    container.Add(new ColorRange(Color.ParseHex(lower), Color.ParseHex(upper)));
+                    container.Add(new ColorRange(SKColor.Parse(lower), SKColor.Parse(upper)));
                 }
             }
         }

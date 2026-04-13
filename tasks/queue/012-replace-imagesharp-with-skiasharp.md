@@ -1,1 +1,0 @@
-replace imagesharp with skiasharp as it's open source

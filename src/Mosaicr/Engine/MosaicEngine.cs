@@ -1,9 +1,7 @@
 using Mosaicr.Configuration;
 using Mosaicr.ImageProcessing;
 using Mosaicr.Strategy;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 
 namespace Mosaicr.Engine;
 
@@ -25,16 +23,9 @@ public static class MosaicEngine
             var canvasHeight = rows * settings.TileHeight;
 
             // Step 3: Create canvas filled with background color
-            using var canvas = new Image<Rgb24>(canvasWidth, canvasHeight);
-            var bgPixel = settings.BackgroundColor.ToPixel<Rgb24>();
-            canvas.ProcessPixelRows(accessor =>
-            {
-                for (int y = 0; y < accessor.Height; y++)
-                {
-                    var row = accessor.GetRowSpan(y);
-                    row.Fill(bgPixel);
-                }
-            });
+            using var canvas = new SKBitmap(canvasWidth, canvasHeight);
+            using var skCanvas = new SKCanvas(canvas);
+            skCanvas.Clear(settings.BackgroundColor);
 
             // Step 4: Prepare image list
             var imageList = ImageListPreparator.Prepare(
@@ -59,8 +50,8 @@ public static class MosaicEngine
 
                     if (tilePath != null)
                     {
-                        using var tile = Image.Load<Rgb24>(tilePath);
-                        canvas.Mutate(ctx => ctx.DrawImage(tile, new Point(bounds.X, bounds.Y), 1f));
+                        using var tile = SKBitmap.Decode(tilePath);
+                        skCanvas.DrawBitmap(tile, new SKPoint(bounds.X, bounds.Y));
                     }
                     else
                     {
@@ -68,16 +59,29 @@ public static class MosaicEngine
                             ? settings.TilesColorRanges.GetNextColor()
                             : settings.BackgroundColor;
 
-                        var pixel = fillColor.ToPixel<Rgb24>();
-                        FillRectangle(canvas, bounds.X, bounds.Y, bounds.Width, bounds.Height, pixel);
+                        using var paint = new SKPaint { Color = fillColor };
+                        skCanvas.DrawRect(bounds.X, bounds.Y, bounds.Width, bounds.Height, paint);
                     }
                 }
             }
 
+            skCanvas.Flush();
+
             // Step 7 & 8: Write output (with grayscale conversion if needed)
             if (settings.TargetImageType == ImageType.BW)
             {
-                using var grayscale = canvas.CloneAs<L8>();
+                using var grayscale = new SKBitmap(canvasWidth, canvasHeight);
+                using var gsCanvas = new SKCanvas(grayscale);
+                using var paint = new SKPaint();
+                paint.ColorFilter = SKColorFilter.CreateColorMatrix(new float[]
+                {
+                    0.2126f, 0.7152f, 0.0722f, 0, 0,
+                    0.2126f, 0.7152f, 0.0722f, 0, 0,
+                    0.2126f, 0.7152f, 0.0722f, 0, 0,
+                    0, 0, 0, 1, 0
+                });
+                gsCanvas.DrawBitmap(canvas, 0, 0, paint);
+                gsCanvas.Flush();
                 ImageWriter.WriteJpeg(grayscale, outputFile);
             }
             else
@@ -100,25 +104,5 @@ public static class MosaicEngine
                 }
             }
         }
-    }
-
-    private static void FillRectangle(Image<Rgb24> canvas, int x, int y, int width, int height, Rgb24 color)
-    {
-        var maxX = Math.Min(x + width, canvas.Width);
-        var maxY = Math.Min(y + height, canvas.Height);
-        var startX = Math.Max(x, 0);
-        var startY = Math.Max(y, 0);
-
-        canvas.ProcessPixelRows(accessor =>
-        {
-            for (int py = startY; py < maxY; py++)
-            {
-                var row = accessor.GetRowSpan(py);
-                for (int px = startX; px < maxX; px++)
-                {
-                    row[px] = color;
-                }
-            }
-        });
     }
 }

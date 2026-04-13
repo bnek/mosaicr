@@ -1,5 +1,4 @@
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Mosaicr.ImageProcessing;
 
@@ -20,22 +19,24 @@ public static class ImagePreparator
 
         foreach (var filePath in imageFiles)
         {
-            using var image = Image.Load<Rgb24>(filePath);
+            var image = SKBitmap.Decode(filePath);
 
             if (image.Width == tileWidth && image.Height == tileHeight)
             {
+                image.Dispose();
                 tilePaths.Add(filePath);
                 continue;
             }
 
-            ImageCropper.CenterCrop(image, tileWidth, tileHeight);
-            ImageResizer.Resize(image, tileWidth, tileHeight);
+            image = ImageCropper.CenterCrop(image, tileWidth, tileHeight);
+            image = ImageResizer.Resize(image, tileWidth, tileHeight);
 
             var tempPath = Path.Combine(
                 Path.GetDirectoryName(filePath)!,
                 Path.GetFileNameWithoutExtension(filePath) + ".rescaled.jpg");
 
             ImageWriter.WriteJpeg(image, tempPath);
+            image.Dispose();
             tempFiles.Add(tempPath);
             tilePaths.Add(tempPath);
         }

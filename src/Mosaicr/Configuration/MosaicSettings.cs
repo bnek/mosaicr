@@ -1,5 +1,5 @@
 using Mosaicr.Colors;
-using SixLabors.ImageSharp;
+using SkiaSharp;
 
 namespace Mosaicr.Configuration;
 
@@ -11,7 +11,7 @@ public class MosaicSettings
     public int VerticalTileCount { get; set; } = 4;
     public bool ShuffleEnabled { get; set; } = true;
     public bool FillUpMissingTilesWithImages { get; set; } = false;
-    public Color BackgroundColor { get; set; } = Color.ParseHex("#FF0000");
+    public SKColor BackgroundColor { get; set; } = SKColor.Parse("#FF0000");
     public ColorRangeContainer TilesColorRanges { get; set; } = ColorRangeContainer.Parse("#FF4F00-#FFBF00,#FFA500-#FFC520");
     public ImageType TargetImageType { get; set; } = ImageType.RGB;
     public string ImageFillingType { get; set; } = "CIRCLE";

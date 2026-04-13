@@ -1,11 +1,10 @@
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 
 namespace Mosaicr.ImageProcessing;
 
 public static class ImageCropper
 {
-    public static void CenterCrop(Image image, int tileWidth, int tileHeight)
+    public static SKBitmap CenterCrop(SKBitmap image, int tileWidth, int tileHeight)
     {
         double imageAR = (double)image.Width / image.Height;
         double tileAR = (double)tileWidth / tileHeight;
@@ -13,7 +12,7 @@ public static class ImageCropper
         if (Math.Abs(imageAR - tileAR) < 0.001)
         {
             // Aspect ratios match — no cropping needed
-            return;
+            return image;
         }
 
         int cropX, cropY, cropWidth, cropHeight;
@@ -35,7 +34,13 @@ public static class ImageCropper
             cropY = (image.Height - cropHeight) / 2;
         }
 
-        var cropRect = new Rectangle(cropX, cropY, cropWidth, cropHeight);
-        image.Mutate(ctx => ctx.Crop(cropRect));
+        var cropRect = new SKRectI(cropX, cropY, cropX + cropWidth, cropY + cropHeight);
+        var cropped = new SKBitmap(cropWidth, cropHeight);
+        using var canvas = new SKCanvas(cropped);
+        canvas.DrawBitmap(image, cropRect, new SKRect(0, 0, cropWidth, cropHeight));
+        canvas.Flush();
+
+        image.Dispose();
+        return cropped;
     }
 }

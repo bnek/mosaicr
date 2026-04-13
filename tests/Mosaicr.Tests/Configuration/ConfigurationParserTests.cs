@@ -1,6 +1,5 @@
 using Mosaicr.Configuration;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Mosaicr.Tests.Configuration;
 
@@ -12,7 +11,7 @@ public class ConfigurationParserTests
         return ConfigurationParser.Parse(reader);
     }
 
-    private static Rgba32 ToRgba32(Color color) => color.ToPixel<Rgba32>();
+    private static SKColor ToColor(SKColor color) => color;
 
     [Fact]
     public void Parse_CompletePropertiesFile_AllValuesSet()
@@ -54,10 +53,10 @@ public class ConfigurationParserTests
         Assert.Equal("NORMAL", settings.ImageFillingType);
         Assert.Equal(0, settings.PlacementBlur);
 
-        var bg = ToRgba32(settings.BackgroundColor);
-        Assert.Equal(255, bg.R);
-        Assert.Equal(0, bg.G);
-        Assert.Equal(0, bg.B);
+        var bg = settings.BackgroundColor;
+        Assert.Equal(255, bg.Red);
+        Assert.Equal(0, bg.Green);
+        Assert.Equal(0, bg.Blue);
 
         Assert.Equal(2, settings.TilesColorRanges.Count);
         Assert.Equal(2, settings.StrategyMappings.Count);
@@ -85,10 +84,10 @@ public class ConfigurationParserTests
         Assert.Equal(2, settings.TilesColorRanges.Count);
 
         // Default background color is red
-        var bg = ToRgba32(settings.BackgroundColor);
-        Assert.Equal(255, bg.R);
-        Assert.Equal(0, bg.G);
-        Assert.Equal(0, bg.B);
+        var bg = settings.BackgroundColor;
+        Assert.Equal(255, bg.Red);
+        Assert.Equal(0, bg.Green);
+        Assert.Equal(0, bg.Blue);
     }
 
     [Fact]
@@ -96,10 +95,10 @@ public class ConfigurationParserTests
     {
         var settings = ParseFromString("backgroundColor=#00FF00");
 
-        var bg = ToRgba32(settings.BackgroundColor);
-        Assert.Equal(0, bg.R);
-        Assert.Equal(255, bg.G);
-        Assert.Equal(0, bg.B);
+        var bg = settings.BackgroundColor;
+        Assert.Equal(0, bg.Red);
+        Assert.Equal(255, bg.Green);
+        Assert.Equal(0, bg.Blue);
     }
 
     [Fact]
@@ -109,25 +108,25 @@ public class ConfigurationParserTests
 
         Assert.Equal(2, settings.TilesColorRanges.Count);
 
-        var range1Lower = ToRgba32(settings.TilesColorRanges[0].LowerBound);
-        Assert.Equal(0x11, range1Lower.R);
-        Assert.Equal(0x22, range1Lower.G);
-        Assert.Equal(0x33, range1Lower.B);
+        var range1Lower = settings.TilesColorRanges[0].LowerBound;
+        Assert.Equal(0x11, range1Lower.Red);
+        Assert.Equal(0x22, range1Lower.Green);
+        Assert.Equal(0x33, range1Lower.Blue);
 
-        var range1Upper = ToRgba32(settings.TilesColorRanges[0].UpperBound);
-        Assert.Equal(0x44, range1Upper.R);
-        Assert.Equal(0x55, range1Upper.G);
-        Assert.Equal(0x66, range1Upper.B);
+        var range1Upper = settings.TilesColorRanges[0].UpperBound;
+        Assert.Equal(0x44, range1Upper.Red);
+        Assert.Equal(0x55, range1Upper.Green);
+        Assert.Equal(0x66, range1Upper.Blue);
 
-        var range2Lower = ToRgba32(settings.TilesColorRanges[1].LowerBound);
-        Assert.Equal(0xAA, range2Lower.R);
-        Assert.Equal(0xBB, range2Lower.G);
-        Assert.Equal(0xCC, range2Lower.B);
+        var range2Lower = settings.TilesColorRanges[1].LowerBound;
+        Assert.Equal(0xAA, range2Lower.Red);
+        Assert.Equal(0xBB, range2Lower.Green);
+        Assert.Equal(0xCC, range2Lower.Blue);
 
-        var range2Upper = ToRgba32(settings.TilesColorRanges[1].UpperBound);
-        Assert.Equal(0xDD, range2Upper.R);
-        Assert.Equal(0xEE, range2Upper.G);
-        Assert.Equal(0xFF, range2Upper.B);
+        var range2Upper = settings.TilesColorRanges[1].UpperBound;
+        Assert.Equal(0xDD, range2Upper.Red);
+        Assert.Equal(0xEE, range2Upper.Green);
+        Assert.Equal(0xFF, range2Upper.Blue);
     }
 
     [Fact]

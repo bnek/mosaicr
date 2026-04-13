@@ -75,3 +75,7 @@ Add unit tests for core algorithms and an integration test that creates a mosaic
 ## Status
 - **Attempt:** 1
 - **Moved to in-progress:** 2026-04-13
+
+## Completion Notes
+- Completed: 2026-04-13
+- Summary: Added 6 ImageCropper center-crop unit tests (too wide, too tall, matching AR, centered crop verification, aspect ratio precision) and 4 integration tests (full pipeline, placeholders, grayscale, non-square tiles with crop+resize). Removed placeholder UnitTest1.cs. Total: 50 passing tests. All acceptance criteria met.

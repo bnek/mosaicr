@@ -1,6 +1,5 @@
 using Mosaicr.Colors;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Mosaicr.Tests;
 
@@ -54,11 +53,10 @@ public class ColorRangeContainerTests
         for (var i = 0; i < 50; i++)
         {
             var color = container.GetNextColor();
-            var pixel = color.ToPixel<Rgba32>();
 
-            Assert.InRange(pixel.R, 0xFF, 0xFF);
-            Assert.InRange(pixel.G, 0x4F, 0xBF);
-            Assert.InRange(pixel.B, 0x00, 0x00);
+            Assert.InRange(color.Red, 0xFF, 0xFF);
+            Assert.InRange(color.Green, 0x4F, 0xBF);
+            Assert.InRange(color.Blue, 0x00, 0x00);
         }
     }
 
@@ -76,10 +74,10 @@ public class ColorRangeContainerTests
         var container = new ColorRangeContainer();
         Assert.Equal(0, container.Count);
 
-        container.Add(new ColorRange(Color.Black, Color.White));
+        container.Add(new ColorRange(SKColors.Black, SKColors.White));
         Assert.Equal(1, container.Count);
 
-        container.Add(new ColorRange(Color.Red, Color.Blue));
+        container.Add(new ColorRange(SKColors.Red, SKColors.Blue));
         Assert.Equal(2, container.Count);
     }
 }

@@ -1,29 +1,25 @@
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Mosaicr.Colors;
 
 public class ColorRange
 {
-    public Color LowerBound { get; }
-    public Color UpperBound { get; }
+    public SKColor LowerBound { get; }
+    public SKColor UpperBound { get; }
 
-    public ColorRange(Color lowerBound, Color upperBound)
+    public ColorRange(SKColor lowerBound, SKColor upperBound)
     {
         LowerBound = lowerBound;
         UpperBound = upperBound;
     }
 
-    public Color GetRandomColor()
+    public SKColor GetRandomColor()
     {
-        var lo = LowerBound.ToPixel<Rgba32>();
-        var hi = UpperBound.ToPixel<Rgba32>();
+        var r = RandomChannel(LowerBound.Red, UpperBound.Red);
+        var g = RandomChannel(LowerBound.Green, UpperBound.Green);
+        var b = RandomChannel(LowerBound.Blue, UpperBound.Blue);
 
-        var r = RandomChannel(lo.R, hi.R);
-        var g = RandomChannel(lo.G, hi.G);
-        var b = RandomChannel(lo.B, hi.B);
-
-        return Color.FromRgba(r, g, b, 255);
+        return new SKColor(r, g, b, 255);
     }
 
     private static byte RandomChannel(byte a, byte b)

@@ -1,7 +1,6 @@
 using Mosaicr.Configuration;
 using Mosaicr.Engine;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace Mosaicr.Tests.Integration;
 
@@ -17,11 +16,11 @@ public class MosaicEngineIntegrationTests : IDisposable
         _outputFile = Path.Combine(_testDir, "output.jpg");
 
         // Create small test JPEG images (100x100 px each, different colors)
-        CreateTestImage(Path.Combine(_testDir, "tile1.jpg"), 100, 100, new Rgb24(255, 0, 0));
-        CreateTestImage(Path.Combine(_testDir, "tile2.jpg"), 100, 100, new Rgb24(0, 255, 0));
-        CreateTestImage(Path.Combine(_testDir, "tile3.jpg"), 100, 100, new Rgb24(0, 0, 255));
-        CreateTestImage(Path.Combine(_testDir, "tile4.jpg"), 100, 100, new Rgb24(255, 255, 0));
-        CreateTestImage(Path.Combine(_testDir, "tile5.jpg"), 100, 100, new Rgb24(255, 0, 255));
+        CreateTestImage(Path.Combine(_testDir, "tile1.jpg"), 100, 100, new SKColor(255, 0, 0));
+        CreateTestImage(Path.Combine(_testDir, "tile2.jpg"), 100, 100, new SKColor(0, 255, 0));
+        CreateTestImage(Path.Combine(_testDir, "tile3.jpg"), 100, 100, new SKColor(0, 0, 255));
+        CreateTestImage(Path.Combine(_testDir, "tile4.jpg"), 100, 100, new SKColor(255, 255, 0));
+        CreateTestImage(Path.Combine(_testDir, "tile5.jpg"), 100, 100, new SKColor(255, 0, 255));
     }
 
     public void Dispose()
@@ -62,7 +61,7 @@ public class MosaicEngineIntegrationTests : IDisposable
         Assert.True(File.Exists(_outputFile), "Output mosaic file should exist");
 
         // Verify output has expected dimensions
-        using var output = Image.Load(_outputFile);
+        using var output = SKBitmap.Decode(_outputFile);
         // 5 tiles, 3x2 = 6 cells, so grid stays at 3x2
         Assert.Equal(3 * 100, output.Width);
         Assert.Equal(2 * 100, output.Height);
@@ -91,7 +90,7 @@ public class MosaicEngineIntegrationTests : IDisposable
 
         Assert.True(File.Exists(_outputFile));
 
-        using var output = Image.Load(_outputFile);
+        using var output = SKBitmap.Decode(_outputFile);
         Assert.Equal(300, output.Width);
         Assert.Equal(200, output.Height);
     }
@@ -120,7 +119,7 @@ public class MosaicEngineIntegrationTests : IDisposable
 
         Assert.True(File.Exists(_outputFile));
 
-        using var output = Image.Load(_outputFile);
+        using var output = SKBitmap.Decode(_outputFile);
         Assert.Equal(300, output.Width);
         Assert.Equal(200, output.Height);
     }
@@ -149,22 +148,21 @@ public class MosaicEngineIntegrationTests : IDisposable
 
         Assert.True(File.Exists(_outputFile));
 
-        using var output = Image.Load(_outputFile);
+        using var output = SKBitmap.Decode(_outputFile);
         Assert.Equal(3 * 50, output.Width);
         Assert.Equal(2 * 75, output.Height);
     }
 
-    private static void CreateTestImage(string path, int width, int height, Rgb24 color)
+    private static void CreateTestImage(string path, int width, int height, SKColor color)
     {
-        using var image = new Image<Rgb24>(width, height);
-        image.ProcessPixelRows(accessor =>
-        {
-            for (int y = 0; y < accessor.Height; y++)
-            {
-                var row = accessor.GetRowSpan(y);
-                row.Fill(color);
-            }
-        });
-        image.SaveAsJpeg(path);
+        using var bitmap = new SKBitmap(width, height);
+        using var canvas = new SKCanvas(bitmap);
+        canvas.Clear(color);
+        canvas.Flush();
+
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Jpeg, 90);
+        using var stream = File.OpenWrite(path);
+        data.SaveTo(stream);
     }
 }

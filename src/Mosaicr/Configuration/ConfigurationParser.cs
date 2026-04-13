@@ -1,5 +1,5 @@
 using Mosaicr.Colors;
-using SixLabors.ImageSharp;
+using SkiaSharp;
 
 namespace Mosaicr.Configuration;
 
@@ -69,7 +69,7 @@ public static class ConfigurationParser
                 settings.FillUpMissingTilesWithImages = bool.Parse(value);
                 break;
             case "backgroundColor":
-                settings.BackgroundColor = Color.ParseHex(value);
+                settings.BackgroundColor = SKColor.Parse(value);
                 break;
             case "tilesColorRange":
                 settings.TilesColorRanges = ColorRangeContainer.Parse(value);

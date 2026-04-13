@@ -140,6 +140,18 @@ static int Run(string[] args)
         // Execute
         Console.WriteLine("Mosaicr - Photo Mosaic Generator");
         Console.WriteLine($"Source: {Path.GetFullPath(sourceDirectory)}");
+
+        // If the output file already exists, append a timestamp to avoid overwriting
+        if (File.Exists(outputFile))
+        {
+            var dir = Path.GetDirectoryName(outputFile) ?? ".";
+            var name = Path.GetFileNameWithoutExtension(outputFile);
+            var ext = Path.GetExtension(outputFile);
+            var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            outputFile = Path.Combine(dir, $"{name}_{timestamp}{ext}");
+            Console.WriteLine($"Output file already exists. Writing to: {Path.GetFullPath(outputFile)}");
+        }
+
         Console.WriteLine($"Output: {Path.GetFullPath(outputFile)}");
         Console.WriteLine($"Tiles:  {imageFiles.Length} images found");
         Console.WriteLine();

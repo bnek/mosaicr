@@ -9,27 +9,27 @@
 
 # --- Required arguments -------------------------------------------------------
 
-$sourceDir  = "./my-photos"           # Directory containing .jpg tile images
-$outputFile = "./output/mosaic.jpg"   # Output mosaic file path
+$sourceDir  = "examples/my-photos"           # Directory containing .jpg tile images
+$outputFile = "examples/output/mosaic.png"   # Output mosaic file path
 
 # --- Optional: configuration file ---------------------------------------------
 
-$configFile = "./mosaicr.sample.properties"
+$configFile = "examples/mosaicr.sample.properties"
 
 # --- Tile dimensions (pixels) -------------------------------------------------
 
-$tileWidth  = 200
+$tileWidth  = 300
 $tileHeight = 300
 
 # --- Grid layout --------------------------------------------------------------
 
-$columns = 19   # Base horizontal tile count
-$rows    = 4    # Base vertical tile count
+$columns = 7   # Base horizontal tile count
+$rows    = 7    # Base vertical tile count
 
 # --- Behavior -----------------------------------------------------------------
 
 $shuffle        = "true"    # Randomize tile order (true|false)
-$fillWithImages = "false"   # Reuse tiles to fill empty cells (true|false)
+$fillWithImages = "true"   # Reuse tiles to fill empty cells (true|false)
 
 # --- Filling strategy ----------------------------------------------------------
 

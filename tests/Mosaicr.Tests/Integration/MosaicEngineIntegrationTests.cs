@@ -51,7 +51,7 @@ public class MosaicEngineIntegrationTests : IDisposable
             PlacementBlur = 0,
             StrategyMappings = new Dictionary<string, string>
             {
-                ["NORMAL_CLASS"] = "SimpleImageFillingStrategy"
+                ["NORMAL_CLASS"] = "SimpleGridStrategy"
             }
         };
 
@@ -82,7 +82,7 @@ public class MosaicEngineIntegrationTests : IDisposable
             PlacementBlur = 0,
             StrategyMappings = new Dictionary<string, string>
             {
-                ["NORMAL_CLASS"] = "SimpleImageFillingStrategy"
+                ["NORMAL_CLASS"] = "SimpleGridStrategy"
             }
         };
 
@@ -111,7 +111,7 @@ public class MosaicEngineIntegrationTests : IDisposable
             PlacementBlur = 0,
             StrategyMappings = new Dictionary<string, string>
             {
-                ["NORMAL_CLASS"] = "SimpleImageFillingStrategy"
+                ["NORMAL_CLASS"] = "SimpleGridStrategy"
             }
         };
 
@@ -140,7 +140,7 @@ public class MosaicEngineIntegrationTests : IDisposable
             PlacementBlur = 0,
             StrategyMappings = new Dictionary<string, string>
             {
-                ["NORMAL_CLASS"] = "SimpleImageFillingStrategy"
+                ["NORMAL_CLASS"] = "SimpleGridStrategy"
             }
         };
 

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Mosaicr/Mosaicr.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Mosaicr.Tests/Mosaicr.Tests.csproj" />
+  </Folder>
+</Solution>

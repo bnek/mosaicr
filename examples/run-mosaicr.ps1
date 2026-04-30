@@ -18,23 +18,23 @@ $configFile = "examples/mosaicr.sample.properties"
 
 # --- Tile dimensions (pixels) -------------------------------------------------
 
-$tileWidth  = 300
-$tileHeight = 300
+$tileWidth  = 2
+$tileHeight = 20
 
 # --- Grid layout --------------------------------------------------------------
 
-$columns = 7   # Base horizontal tile count
-$rows    = 7    # Base vertical tile count
+$columns = 200   # Base horizontal tile count
+$rows    = 20    # Base vertical tile count
 
 # --- Behavior -----------------------------------------------------------------
 
 $shuffle        = "true"    # Randomize tile order (true|false)
-$fillWithImages = "true"   # Reuse tiles to fill empty cells (true|false)
+$fillWithImages = "false"   # Reuse tiles to fill empty cells (true|false)
 
 # --- Filling strategy ----------------------------------------------------------
 
-$strategy = "CIRCLE"   # Placement strategy: NORMAL or CIRCLE
-$blur     = 0          # Random pixel offset for tile position (0 = exact grid)
+$strategy = "NORMAL"   # Placement strategy: NORMAL or CIRCLE
+$blur     = 10          # Random pixel offset for tile position (0 = exact grid)
 
 # --- Run Mosaicr with all parameters ------------------------------------------
 

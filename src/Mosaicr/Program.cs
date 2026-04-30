@@ -72,11 +72,6 @@ static int Run(string[] args)
         var imageFiles = Directory.EnumerateFiles(sourceDirectory)
             .Where(f => new[] { ".jpg", ".jpeg", ".png" }.Contains(Path.GetExtension(f).ToLowerInvariant()))
             .ToArray();
-        if (imageFiles.Length == 0)
-        {
-            Console.Error.WriteLine($"Error: Source directory contains no image files (.jpg, .png): {sourceDirectory}");
-            return 1;
-        }
 
         // Validate output path
         var outputDir = Path.GetDirectoryName(Path.GetFullPath(outputFile));
@@ -135,6 +130,15 @@ static int Run(string[] args)
         {
             if (blur.Value < 0) { Console.Error.WriteLine("Error: --blur must be a non-negative integer."); return 1; }
             settings.PlacementBlur = blur.Value;
+        }
+
+        // After settings are resolved, ensure we have something to render.
+        // Empty source directories are only valid when tiles will be filled with solid colors.
+        if (imageFiles.Length == 0 && settings.FillUpMissingTilesWithImages)
+        {
+            Console.Error.WriteLine($"Error: Source directory contains no image files (.jpg, .png): {sourceDirectory}");
+            Console.Error.WriteLine("Set fillUpMissingTilesWithImages=false (or pass --fill-with-images false) to render a color-only mosaic.");
+            return 1;
         }
 
         // Execute
